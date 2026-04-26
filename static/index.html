@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Document Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar / Upload Area -->
+        <aside class="sidebar glass-panel">
+            <div class="logo-area">
+                <i class="fa-solid fa-brain logo-icon"></i>
+                <h1>DocAssist AI</h1>
+            </div>
+            
+            <div class="upload-section">
+                <h2>Knowledge Base</h2>
+                <p class="subtitle">Upload a PDF document to begin asking questions.</p>
+                
+                <div class="upload-box" id="uploadBox">
+                    <input type="file" id="fileInput" accept=".pdf" hidden>
+                    <i class="fa-solid fa-file-arrow-up upload-icon"></i>
+                    <p>Click or drag PDF here</p>
+                </div>
+                
+                <div id="uploadStatus" class="status-message hidden">
+                    <div class="spinner"></div>
+                    <span>Processing document...</span>
+                </div>
+                
+                <div id="fileInfo" class="file-info hidden">
+                    <i class="fa-regular fa-file-pdf"></i>
+                    <span id="fileName">document.pdf</span>
+                    <i class="fa-solid fa-check text-success"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-area glass-panel">
+            <div class="chat-header">
+                <h2>Chat Session</h2>
+                <div class="status-indicator">
+                    <span class="dot offline" id="systemStatusDot"></span>
+                    <span id="systemStatusText">Awaiting Document</span>
+                </div>
+            </div>
+            
+            <div class="chat-history" id="chatHistory">
+                <div class="message system-message">
+                    <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div class="message-content">
+                        Hello! I'm your AI Document Assistant. Please upload a PDF document on the left, and I'll help you analyze it and answer any questions you have based on its contents.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <form id="chatForm">
+                    <input type="text" id="questionInput" placeholder="Ask a question about your document..." disabled autocomplete="off">
+                    <button type="submit" id="sendBtn" disabled>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
