@@ -13,7 +13,34 @@
 <body>
     <div class="background-animation"></div>
     
-    <div class="app-container">
+    <!-- Auth Screen -->
+    <div id="authScreen" class="auth-container glass-panel">
+        <div class="logo-area" style="justify-content: center; margin-bottom: 24px;">
+            <i class="fa-solid fa-brain logo-icon"></i>
+            <h1>DocAssist AI</h1>
+        </div>
+        
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin">Login</button>
+            <button class="auth-tab" id="tabRegister">Register</button>
+        </div>
+        
+        <form id="authForm">
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div id="authError" class="auth-error hidden"></div>
+            <button type="submit" id="authBtn" class="primary-btn">Sign In</button>
+        </form>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="app-container hidden">
         <!-- Sidebar / Upload Area -->
         <aside class="sidebar glass-panel">
             <div class="logo-area">
@@ -21,24 +48,30 @@
                 <h1>DocAssist AI</h1>
             </div>
             
+            <div class="user-info">
+                <i class="fa-solid fa-circle-user"></i>
+                <span id="displayUsername">User</span>
+                <button id="logoutBtn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+            
             <div class="upload-section">
                 <h2>Knowledge Base</h2>
-                <p class="subtitle">Upload a PDF document to begin asking questions.</p>
+                <p class="subtitle">Upload multiple PDF documents to build your context.</p>
                 
                 <div class="upload-box" id="uploadBox">
-                    <input type="file" id="fileInput" accept=".pdf" hidden>
+                    <input type="file" id="fileInput" accept=".pdf" multiple hidden>
                     <i class="fa-solid fa-file-arrow-up upload-icon"></i>
-                    <p>Click or drag PDF here</p>
+                    <p>Click or drag PDFs here</p>
                 </div>
                 
                 <div id="uploadStatus" class="status-message hidden">
                     <div class="spinner"></div>
-                    <span>Processing document...</span>
+                    <span>Processing documents...</span>
                 </div>
                 
                 <div id="fileInfo" class="file-info hidden">
                     <i class="fa-regular fa-file-pdf"></i>
-                    <span id="fileName">document.pdf</span>
+                    <span id="fileName">0 documents loaded</span>
                     <i class="fa-solid fa-check text-success"></i>
                 </div>
             </div>
@@ -50,23 +83,18 @@
                 <h2>Chat Session</h2>
                 <div class="status-indicator">
                     <span class="dot offline" id="systemStatusDot"></span>
-                    <span id="systemStatusText">Awaiting Document</span>
+                    <span id="systemStatusText">Awaiting Documents</span>
                 </div>
             </div>
             
             <div class="chat-history" id="chatHistory">
-                <div class="message system-message">
-                    <div class="avatar"><i class="fa-solid fa-robot"></i></div>
-                    <div class="message-content">
-                        Hello! I'm your AI Document Assistant. Please upload a PDF document on the left, and I'll help you analyze it and answer any questions you have based on its contents.
-                    </div>
-                </div>
+                <!-- History will be loaded dynamically -->
             </div>
             
             <div class="chat-input-area">
                 <form id="chatForm">
-                    <input type="text" id="questionInput" placeholder="Ask a question about your document..." disabled autocomplete="off">
-                    <button type="submit" id="sendBtn" disabled>
+                    <input type="text" id="questionInput" placeholder="Ask a question about your documents..." autocomplete="off">
+                    <button type="submit" id="sendBtn">
                         <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </form>
