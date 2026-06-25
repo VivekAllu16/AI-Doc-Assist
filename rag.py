@@ -1,4 +1,5 @@
 import os
+import time
 from io import BytesIO
 from typing import List
 from PyPDF2 import PdfReader
@@ -73,8 +74,32 @@ class RAGPipeline:
     def ask_question(self, question: str, user_id: int) -> str:
         if user_id not in self.user_retrieval_chains:
             return "Please upload a document first before asking questions."
-        
-        response = self.user_retrieval_chains[user_id].invoke(question)
-        return response
+
+        retries = 3
+        backoff = 1
+        last_error = None
+        for attempt in range(retries):
+            try:
+                response = self.user_retrieval_chains[user_id].invoke(question)
+                return response
+            except Exception as exc:
+                last_error = exc
+                message = str(exc)
+                if '503' in message or 'UNAVAILABLE' in message.upper() or 'high demand' in message.lower():
+                    time.sleep(backoff)
+                    backoff *= 2
+                    continue
+                raise
+        raise RuntimeError(f"LLM request failed after {retries} retries: {last_error}")
+
+    def rebuild_user_store(self, user_id: int, pdf_files: List[bytes]):
+        self.user_vector_stores.pop(user_id, None)
+        self.user_retrieval_chains.pop(user_id, None)
+        if pdf_files:
+            self.process_pdfs(pdf_files, user_id)
+
+    def remove_user_store(self, user_id: int):
+        self.user_vector_stores.pop(user_id, None)
+        self.user_retrieval_chains.pop(user_id, None)
 
 rag_pipeline = RAGPipeline()

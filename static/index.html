@@ -74,13 +74,22 @@
                     <span id="fileName">0 documents loaded</span>
                     <i class="fa-solid fa-check text-success"></i>
                 </div>
+
+                <div class="doc-list-section">
+                    <h2>Uploaded Documents</h2>
+                    <p class="subtitle">Manage your PDF knowledge base.</p>
+                    <div id="docList" class="doc-list empty">No documents uploaded yet.</div>
+                </div>
             </div>
         </aside>
 
         <!-- Main Chat Area -->
         <main class="chat-area glass-panel">
             <div class="chat-header">
-                <h2>Chat Session</h2>
+                <div>
+                    <h2>Chat Session</h2>
+                    <button id="newChatBtn" class="secondary-btn">New Chat</button>
+                </div>
                 <div class="status-indicator">
                     <span class="dot offline" id="systemStatusDot"></span>
                     <span id="systemStatusText">Awaiting Documents</span>
